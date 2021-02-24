@@ -1,5 +1,5 @@
 from flask import Flask
-from jsonify import jsonify
+from flask import jsonify
 app = Flask(__name__)
 
 books = [{'name': 'Snow White', 'author': 'Grimm brothers'},

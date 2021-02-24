@@ -1,6 +1,16 @@
 from flask import Flask
 from flask import jsonify
+from flask_mysqldb import MySQL
+
+mysql = MySQL()
 app = Flask(__name__)
+
+#MySQL configuration
+app.config['MYSQL_USER'] = 'booksuser'
+app.config['MYSQL_PASSWORD'] = 'ThePass11$Dot'
+app.config['MYSQL_DB'] = 'booksDB'
+appconfig['MYSQL_HOST'] = 'localhost'
+mysql.init_app(app)
 
 books = [{'name': 'Snow White', 'author': 'Grimm brothers'},
          {'name': 'If it bleeds', 'author': 'Stephen King'}
@@ -17,7 +27,7 @@ def return_all():
     return jsonify({'books': books})
 
 @app.route("/api/books/titles", methods=['GET'])
-def book_titles():
+def return_titles():
     titles = []
     for book in books:
         titles.append(book['name'])

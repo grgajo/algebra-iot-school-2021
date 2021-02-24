@@ -11,7 +11,7 @@ books = [{'name': 'Snow White', 'author': 'Grimm brothers'},
 def hello_world():
     return 'Hello world!'
 
-@app.route("api/books", methods=['GET'])
+@app.route("/api/books", methods=['GET'])
 def return_all():
     return jsonify({'books': books})
 

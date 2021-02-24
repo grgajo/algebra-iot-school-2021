@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config['MYSQL_USER'] = 'booksuser'
 app.config['MYSQL_PASSWORD'] = 'ThePass11$Dot'
 app.config['MYSQL_DB'] = 'booksDB'
-appconfig['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = 'localhost'
 mysql.init_app(app)
 
 books = [{'name': 'Snow White', 'author': 'Grimm brothers'},

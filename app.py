@@ -17,14 +17,19 @@ books = [{'name': 'Snow White', 'author': 'Grimm brothers'},
 ]
 
 
-
 @app.route('/', methods=['GET'])
 def hello_world():
     return 'Hello world!'
 
 @app.route("/api/books", methods=['GET'])
 def return_all():
-    return jsonify({'books': books})
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT Name, Author FROM book")
+    rows = cursor.fetchall()
+
+    return jsonify({'rows': rows})
 
 @app.route("/api/books/titles", methods=['GET'])
 def return_titles():

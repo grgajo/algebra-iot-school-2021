@@ -34,7 +34,7 @@
 const char* ssid  = "Algebra-HotSpot";
 const char* pass = "";
 const String student_name("grga");
-const char* mqtt_server = "213.191.133.132";
+const char* mqtt_server = "172.20.25.0";
 const int   mqtt_port = 1883;
 //==================================================
 
@@ -130,7 +130,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 	if (strncmp("sleep", buf, strlen("sleep")) == 0) {
 
-		mqttClient.publish("algebra/iot/tomo/status", "sleeping");
+		mqttClient.publish("algebra/iot/grga/status", "sleeping");
 	}
 
 	// go to power saving mode, you can wake the bracelet using "reset" button

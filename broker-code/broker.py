@@ -1,62 +1,83 @@
 import paho.mqtt.client as mqtt
 import json
-from datetime import datetime
 import requests
+from datetime import datetime
 import os
 
-URL = "vm-iot-school-2020-1.westeurope.cloudapp.azure.com/api/telemetry/measurement"
-def on_connect(client, userdata, flags, rc):
-    print("Connected")
+GET_URL = "http://vm-iot-school-2020-1.westeurope.cloudapp.azure.com//api/telemetry/measurement"
+POST_URL = "http://vm-iot-school-2020-1.westeurope.cloudapp.azure.com/api/telemetry/measurement"
 
-def on_subscribe(client, userdata, mid, granted_qos):
-    print("Subbed")
+def on_connect(client, userdata, flags, rc):
+    print("Connected to the broker")
+
+def on_subscribe(client, userdata, mis, granted_ops):
+    print("We are subscribed")
+
+def on_publish(client, userdata, mid):
+    print("We are publishing...")
 
 def on_message(client, userdata, msg):
-    print("Topic receieved")
-    handle_mqtt_data(msg.topic, msg.payload.decode('utf-8'))
+    print("topic: {}, message: {}".format(msg.topic, msg.payload))
+    handle_mqtt_data(msg.topic, msg.payload)
 
 def handle_mqtt_data(topic, payload):
-    print("Handling data")
+    print("Handling mqtt data")
     json_data = dict()
 
     try:
-        if "temperature" in topic and "grga" in topic:
+        if "temperature" in topic:
             json_data["SensorName"] = "temperature"
             json_data["SensorValue"] = str(float(payload))
-            json_data["DeviceId"] = 1
-        elif "pulse" in topic and "grga" in topic:
-            json_data["SensorName"] = "heartrate"
+
+        elif "pulse" in topic:
+            json_data["SensorName"] = "pulse"
             json_data["SensorValue"] = str(float(payload))
-            json_data["DeviceId"] = 1
-        elif "battery" in topic and "grga" in topic:
+
+        elif "battery" in topic:
             json_data["SensorName"] = "battery"
             json_data["SensorValue"] = str(float(payload))
-            json_data["DeviceId"] = 1
+
         else:
             print("Received an unknown message")
 
     except Exception as e:
-        print("Encountered an error", e)
+        print("Encountered an error ", e)
 
-    json_data["CreatedOn"] = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    print(json_data)
-    json_string = json.dumps(json_data)
-    print(json_string)
-    post_data(json_string)
+    json_data["CreatedOn"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    json_data["DeviceId"] = "1"
+    post_data(json_data)
 
-def post_data(json_string):
-    response = requests.post(URL, json=json_string)
-    if response.status_code == 200:
-        print("Sent")
+    # json_string = json.dumps(json_data)
+
+    '''with open("mylogfile.log", 'w') as file:
+        file.write(json_string)'''
+
+def post_data(json_data):
+    r = requests.post(url=POST_URL, json=json_data)
+    if(r.status_code == 200):
+        print("Posted data successfully")
+
     else:
-        print("Error")
+        print("Error " + str(r.status_code))
+
+def get_data(json_data):
+    r = requests.get(url=GET_URL, json=json_data)
+    if(r.status_code == 200):
+        data = r.json()
+        print(data)
+
+    else:
+        print("Error " + str(r.status_code))
+
 
 if __name__ == "__main__":
-        print("eee")
-        client = mqtt.Client()
-        client.on_connect = on_connect
-        client.on_subscribe = on_subscribe
-        client.on_message = on_message
-        client.connect("127.0.0.1", 1883)
-        client.subscribe("algebra/iot/grga/#")
-        client.loop_forever()
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_subscribe = on_subscribe
+    client.on_publish = on_publish
+    client.on_message = on_message
+
+    client.connect('localhost', 1883, 60)
+    client.subscribe("/algebra/iot/grga/#")
+
+    client.loop_forever()

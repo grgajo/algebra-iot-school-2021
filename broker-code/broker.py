@@ -41,8 +41,8 @@ def handle_mqtt_data(topic, payload):
     json_data["CreatedOn"] = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     print(json_data)
     json_string = json.dumps(json_data)
-    print(json_data)
-    post_data(json_data)
+    print(json_string)
+    post_data(json_string)
 
 def post_data(json_string):
     response = requests.post(URL, json=json_string)

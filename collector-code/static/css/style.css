@@ -30,3 +30,8 @@ body {
     background-position: center;
     position: relative;
   }
+#Mymap {
+  box-shadow:  0 0 10px rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: auto;
+}

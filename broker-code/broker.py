@@ -78,6 +78,6 @@ if __name__ == "__main__":
     client.on_message = on_message
 
     client.connect('localhost', 1883, 60)
-    client.subscribe("/algebra/iot/grga/#")
+    client.subscribe("algebra/iot/grga/#")
 
     client.loop_forever()

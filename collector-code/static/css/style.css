@@ -1,7 +1,7 @@
 html, body, #container {
 
     height: 100%;
-    padding-top: 30px;
+    
     overflow: hidden;
 
     width: 100%;
@@ -31,7 +31,7 @@ body {
     position: relative;
   }
 #Mymap {
-  
+  padding-top: 30px;
   box-shadow:  0 0 10px rgba(0, 0, 0, 0.5);
   height: 100%;
   width: auto;

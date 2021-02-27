@@ -18,7 +18,7 @@ $.ajax({
  
         var ctx = document.getElementById("Mychart");
         var mychart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: captions,
                 datasets: [

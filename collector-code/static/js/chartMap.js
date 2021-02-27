@@ -1,5 +1,5 @@
 $.ajax({
-    url: "http://vm-iot-school-2020-1.westeurope.cloudapp.azure.com/api/telemetry/devices",
+    url: "http://vm-iot-school-2020-1.westeurope.cloudapp.azure.com:80/api/telemetry/devices",
     data: {
     },
     cache: false,

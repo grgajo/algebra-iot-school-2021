@@ -31,6 +31,7 @@ body {
     position: relative;
   }
 #Mymap {
+  margin-top: 2.9rem;
   box-shadow:  0 0 10px rgba(0, 0, 0, 0.5);
   height: 100%;
   width: auto;
